@@ -40,6 +40,7 @@ Conference.belongsTo(Season, {
 Season.hasMany(Conference, {
 	constraints: true,
 	foreignKey: "Id_season",
+	onDelete: "CASCADE",
 });
 
 sequelize
