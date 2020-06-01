@@ -18,6 +18,7 @@ const playerRoutes = require("./routes/players");
 const teamRoutes = require("./routes/teams");
 const seasonRoutes = require("./routes/seasons");
 const conferenceRoutes = require("./routes/conferences");
+const teamPlayerRoutes = require("./routes/team-players");
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use("/api", playerRoutes);
 app.use("/api", teamRoutes);
 app.use("/api", seasonRoutes);
 app.use("/api", conferenceRoutes);
+app.use("/api", teamPlayerRoutes);
 
 Conference.belongsTo(Season, {
 	constraints: true,
@@ -46,8 +48,26 @@ Season.hasMany(Conference, {
 	onDelete: "CASCADE",
 });
 
-Player.belongsToMany(Team, { through: TeamPlayer, foreignKey: "Id_player" });
-Team, belongsToMany(Player, { through: TeamPlayer, foreignKey: "Id_team" });
+// Player.belongsToMany(Team, { through: TeamPlayer, foreignKey: "Id_player" });
+// Team, belongsToMany(Player, { through: TeamPlayer, foreignKey: "Id_team" });
+
+Player.associate = function (models) {
+	Player.belongsToMany(models.Team, {
+		through: "teamplayers",
+		// as: "teams",
+		foreignKey: "Id_player",
+		otherKey: "Id_team",
+	});
+};
+
+Team.associate = function (models) {
+	Team.belongsToMany(models.Player, {
+		through: "teamplayers",
+		// as: "players",
+		foreignKey: "Id_team",
+		otherKey: "Id_player",
+	});
+};
 
 sequelize
 	.sync()
