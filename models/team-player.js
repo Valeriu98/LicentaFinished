@@ -19,6 +19,16 @@ const TeamPlayer = sequelize.define(
 			type: Sequelize.DATE,
 			allowNull: true,
 		},
+		Id_player: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			foreignKey: true,
+		},
+		Id_team: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			foreignKey: true,
+		},
 	},
 	{
 		timestamps: false,
