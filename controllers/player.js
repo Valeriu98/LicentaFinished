@@ -5,13 +5,26 @@ const bodyParser = require("body-parser");
 const Player = require("../models/player");
 
 // GET PLAYERS
-exports.getPlayer = (req, res, next) => {
+exports.getPlayers = (req, res, next) => {
 	Player.findAll()
 		.then((player) => {
 			res.json(player);
 		})
 		.catch((err) => {
 			res.send("error is" + err);
+		});
+};
+
+//GET PLAYER
+// GET PLAYERS
+exports.getPlayer = (req, res, next) => {
+	let Id_player = req.params.id;
+	Player.findByPk(Id_player)
+		.then((player) => {
+			res.json(player);
+		})
+		.catch((err) => {
+			res.send("error in retrieving single player is" + err);
 		});
 };
 

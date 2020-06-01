@@ -10,6 +10,9 @@ const cors = require("cors");
 
 const Conference = require("./models/conference");
 const Season = require("./models/season");
+const Player = require("./models/player");
+const Team = require("./models/team");
+const TeamPlayer = require("./models/team-player");
 
 const playerRoutes = require("./routes/players");
 const teamRoutes = require("./routes/teams");
@@ -42,6 +45,9 @@ Season.hasMany(Conference, {
 	foreignKey: "Id_season",
 	onDelete: "CASCADE",
 });
+
+Player.belongsToMany(Team, { through: TeamPlayer, foreignKey: "Id_player" });
+Team, belongsToMany(Player, { through: TeamPlayer, foreignKey: "Id_team" });
 
 sequelize
 	.sync()

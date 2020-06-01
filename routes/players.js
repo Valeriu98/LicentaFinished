@@ -4,7 +4,9 @@ const playerController = require("../controllers/player");
 
 const router = express.Router();
 
-router.get("/players", playerController.getPlayer);
+router.get("/players", playerController.getPlayers);
+
+router.get("/player/:id", playerController.getPlayer);
 
 router.post("/player", playerController.postPlayer);
 
