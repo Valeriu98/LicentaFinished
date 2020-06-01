@@ -9,6 +9,7 @@ const cors = require("cors");
 // console.log("hello world");
 
 const Conference = require("./models/conference");
+const Division = require("./models/division");
 const Season = require("./models/season");
 const Player = require("./models/player");
 const Team = require("./models/team");
@@ -18,6 +19,7 @@ const playerRoutes = require("./routes/players");
 const teamRoutes = require("./routes/teams");
 const seasonRoutes = require("./routes/seasons");
 const conferenceRoutes = require("./routes/conferences");
+const divisionRoutes = require("./routes/divisions");
 const teamPlayerRoutes = require("./routes/team-players");
 
 const app = express();
@@ -35,6 +37,7 @@ app.use("/api", playerRoutes);
 app.use("/api", teamRoutes);
 app.use("/api", seasonRoutes);
 app.use("/api", conferenceRoutes);
+app.use("/api", divisionRoutes);
 app.use("/api", teamPlayerRoutes);
 
 Conference.belongsTo(Season, {
@@ -48,6 +51,17 @@ Season.hasMany(Conference, {
 	onDelete: "CASCADE",
 });
 
+Division.belongsTo(Conference, {
+	constraints: true,
+	foreignKey: "Id_conf",
+	onDelete: "CASCADE",
+});
+
+Conference.hasMany(Division, {
+	constraints: true,
+	foreignKey: "Id_conf",
+	onDelete: "CASCADE",
+});
 // Player.belongsToMany(Team, { through: TeamPlayer, foreignKey: "Id_player" });
 // Team, belongsToMany(Player, { through: TeamPlayer, foreignKey: "Id_team" });
 
