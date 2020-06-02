@@ -21,6 +21,7 @@ const seasonRoutes = require("./routes/seasons");
 const conferenceRoutes = require("./routes/conferences");
 const divisionRoutes = require("./routes/divisions");
 const teamPlayerRoutes = require("./routes/team-players");
+const divTeamRoutes = require("./routes/div-teams");
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use("/api", seasonRoutes);
 app.use("/api", conferenceRoutes);
 app.use("/api", divisionRoutes);
 app.use("/api", teamPlayerRoutes);
+app.use("/api", divTeamRoutes);
 
 Conference.belongsTo(Season, {
 	constraints: true,
@@ -65,6 +67,7 @@ Conference.hasMany(Division, {
 // Player.belongsToMany(Team, { through: TeamPlayer, foreignKey: "Id_player" });
 // Team, belongsToMany(Player, { through: TeamPlayer, foreignKey: "Id_team" });
 
+//Many to many team players
 Player.associate = function (models) {
 	Player.belongsToMany(models.Team, {
 		through: "teamplayers",
@@ -80,6 +83,25 @@ Team.associate = function (models) {
 		// as: "players",
 		foreignKey: "Id_team",
 		otherKey: "Id_player",
+	});
+};
+
+//Many-to-many divteams
+Division.associate = function (models) {
+	Division.belongsToMany(models.Team, {
+		through: "divteams",
+		// as: "teams",
+		foreignKey: "Id_div",
+		otherKey: "Id_team",
+	});
+};
+
+Team.associate = function (models) {
+	Team.belongsToMany(models.Division, {
+		through: "divteams",
+		// as: "players",
+		foreignKey: "Id_team",
+		otherKey: "Id_div",
 	});
 };
 
