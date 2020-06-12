@@ -1,13 +1,29 @@
 <template>
   <div id="app">
+<v-app>
+    <!-- <v-app-bar> -->
+    <page-header/>
+    <!-- </v-app-bar> -->
+    <v-content>
+    <!-- Provides the application the proper gutter -->
+    <v-container fluid>
+      <!-- If using vue-router -->
     <img src="./assets/NBA-logo_REG.png">
-    <router-view/>
+      <router-view></router-view>
+    </v-container>
+  </v-content>
+  </v-app>
   </div>
 </template>
 
 <script>
+import PageHeader from './components/Header.vue'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    PageHeader
+  }
 }
 </script>
 
@@ -18,6 +34,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 50px;
 }
 </style>

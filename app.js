@@ -23,6 +23,7 @@ const conferenceRoutes = require('./routes/conferences');
 const divisionRoutes = require('./routes/divisions');
 const teamPlayerRoutes = require('./routes/team-players');
 const divTeamRoutes = require('./routes/div-teams');
+const registerRoutes = require('./routes/registers');
 
 const app = express();
 
@@ -44,13 +45,7 @@ app.use('/api', conferenceRoutes);
 app.use('/api', divisionRoutes);
 app.use('/api', teamPlayerRoutes);
 app.use('/api', divTeamRoutes);
-
-//VUE
-app.post('/register', (req, res, next) => {
-	res.send({
-		message: `Your user ${req.body.email} was registered and pass is ${req.body.password}`,
-	});
-});
+app.use('/api', registerRoutes);
 
 Conference.belongsTo(Season, {
 	constraints: true,

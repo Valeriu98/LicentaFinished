@@ -14,7 +14,7 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: "/register",
+      path: "/api/register",
       name: "register",
       component: Register
     }
