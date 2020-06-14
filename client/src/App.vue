@@ -8,7 +8,7 @@
     <!-- Provides the application the proper gutter -->
     <v-container fluid>
       <!-- If using vue-router -->
-    <img src="./assets/NBA-logo_REG.png">
+    <!-- <img src="./assets/NBA-logo_REG.png"> -->
       <router-view></router-view>
     </v-container>
   </v-content>

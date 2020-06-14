@@ -39,6 +39,10 @@ const Player = sequelize.define(
 			type: Sequelize.STRING,
 			allowNull: false,
 		},
+		PlayerImage: {
+			type: Sequelize.TEXT,
+			allowNull: true
+		}
 	},
 	{
 		timestamps: false,

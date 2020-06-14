@@ -1,8 +1,8 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+const express = require('express');
+const bodyParser = require('body-parser');
 
 // var router = express.Router();
-const Player = require("../models/player");
+const Player = require('../models/player');
 
 // GET PLAYERS
 exports.getPlayers = (req, res, next) => {
@@ -11,7 +11,7 @@ exports.getPlayers = (req, res, next) => {
 			res.json(player);
 		})
 		.catch((err) => {
-			res.send("error is" + err);
+			res.send('error is' + err);
 		});
 };
 
@@ -24,7 +24,7 @@ exports.getPlayer = (req, res, next) => {
 			res.json(player);
 		})
 		.catch((err) => {
-			res.send("error in retrieving single player is" + err);
+			res.send('error in retrieving single player is' + err);
 		});
 };
 
@@ -37,16 +37,17 @@ exports.postPlayer = (req, res, next) => {
 		!req.body.College &&
 		!req.body.Nba_debut &&
 		!req.body.Height &&
-		!req.body.Position
+		!req.body.Position &&
+		!req.body.PlayerImage
 	) {
-		res.status(400).json({ error: "Bad data" });
+		res.status(400).json({ error: 'Bad data' });
 	} else {
 		Player.create(req.body)
 			.then(() => {
-				res.send("Player added");
+				res.send('Player added');
 			})
 			.catch((err) => {
-				res.send("error " + err);
+				res.send('error ' + err);
 			});
 	}
 };
@@ -60,10 +61,10 @@ exports.deletePlayer = (req, res, next) => {
 		},
 	})
 		.then(() => {
-			res.send("Player Deleted");
+			res.send('Player Deleted');
 		})
 		.catch((err) => {
-			res.send("error" + err);
+			res.send('error' + err);
 		});
 };
 
@@ -79,7 +80,7 @@ exports.putPlayer = (req, res, next) => {
 		!req.body.Height &&
 		!req.body.Position
 	) {
-		res.status(400).json({ error: "Bad data" });
+		res.status(400).json({ error: 'Bad data' });
 	} else {
 		Player.update(
 			{
@@ -98,11 +99,11 @@ exports.putPlayer = (req, res, next) => {
 			}
 		)
 			.then((result) => {
-				console.log("Player Updated");
+				console.log('Player Updated');
 				res.send(result);
 			})
 			.catch((err) => {
-				res.send("error: " + err);
+				res.send('error: ' + err);
 			});
 	}
 };

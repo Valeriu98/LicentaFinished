@@ -2,15 +2,16 @@
 <v-app>
   <v-layout align="start" justify-start>
     <v-flex xs6 offset-xs3>
-            <img src="../assets/NBA-logo_REG.png">
-            <br><br>
+      <img src="../assets/NBA-logo_REG.png">
+      <br>
+      <br>
       <div class="white elevation-10" >
         <v-app-bar fluid dense class="" color="#01579B" dark>
-        <v-toolbar-title>Register</v-toolbar-title>
+        <v-toolbar-title>Log In</v-toolbar-title>
         </v-app-bar>
           <br>
         <div class="pl-4 pr-4 pt-2 pb-2">
-          <form name="nba-app-form" autocomplete="off">
+          <v-form name="nba-app-form" autocomplete="on">
             <v-text-field
             label="Email"
             outlined
@@ -18,29 +19,17 @@
             ></v-text-field>
             <v-text-field
             label="Password"
-            type="password"
             outlined
+            type="password"
             v-model="Password"
+            autocomplete="new-password"
             ></v-text-field>
-          </form>
-            <!-- <input
-              type="email"
-              name="email"
-              placeholder="email here"
-            /> -->
-            <!-- <br />
-            <br />
-            <input
-              type="password"
-              name="password"
-              placeholder="password here"
-              v-model="Password"
-            /> -->
+            </v-form>
             <br />
             <!-- <br /> -->
             <div class="error" v-html="error" />
-            <v-btn class="ma-2" dark color="#BF360C" @click="register">
-              Register
+            <v-btn class="ma-2" dark color="#BF360C" @click="login">
+              Log In
             </v-btn>
         </div>
       </div>
@@ -51,6 +40,7 @@
 
 <script>
 import AuthenticationServices from '../services/AuthenticationServices'
+// import store from '../store/store'
 
 export default {
   // name: "Register",
@@ -62,14 +52,19 @@ export default {
     }
   },
   methods: {
-    async register () {
+    async login () {
       try {
-        const response = await AuthenticationServices.register({
+        const response = await AuthenticationServices.login({
           Email: this.Email,
           Password: this.Password
         })
-        this.$store.dispatch('setToken', response.data.token)
-        this.$store.dispatch('setUser', response.data.user)
+        console.log('############################### ' + response.user + '############################### ')
+        try {
+          this.$store.dispatch('setToken', response.data.token)
+          this.$store.dispatch('setUser', response.data.user)
+        } catch (e) {
+          console.log('error in store dispatch' + e)
+        }
       } catch (error) {
         this.error = error.response.data.error
       }

@@ -1,3 +1,6 @@
+const Promise = require('bluebird')
+const bcrypt = Promise.promisifyAll(require('bcrypt-nodejs'))
+
 const Sequelize = require('sequelize');
 
 const sequelize = require('../util/database.js');
@@ -26,5 +29,12 @@ const User = sequelize.define(
 		freezeTableName: true,
 	}
 );
+
+User.prototype.comparePassword = function(Password){
+	return bcrypt.compare(Password, this.Password)
+}
+
+// User.associate = function (models) {
+// }
 
 module.exports = User;

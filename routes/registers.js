@@ -3,11 +3,18 @@ const bodyParser = require('body-parser');
 
 const userController = require('../controllers/user');
 
-const userControllerPolicy = require('../policies/userControllerPolicy')
+const userControllerPolicy = require('../policies/userControllerPolicy');
 
 const router = express.Router();
 
 //VUE
-router.post('/register', userControllerPolicy.register , userController.postUser);
+router.post(
+	'/register',
+	userControllerPolicy.register,
+	userController.postUserRegister
+);
+
+//VUE
+router.post('/login', userController.postUserLogin);
 
 module.exports = router;
