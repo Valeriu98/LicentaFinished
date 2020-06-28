@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.get("/divisions", divisionController.getDiv);
 
+router.get("/divisions/:id", divisionController.getDivConf);
+
 router.post("/division", divisionController.postDiv);
 
 router.put("/division/:id", divisionController.putDiv);

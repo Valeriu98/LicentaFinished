@@ -4,7 +4,6 @@
     <v-layout align="start" justify-start>
     <v-flex xs10 offset-xs1>
       <panel title="Data about players">
-
         <br>
       <v-data-table
       :headers="headers"
@@ -14,7 +13,7 @@
     >
       <template v-slot:top>
         <v-app-bar fluid color="cyan">
-          <v-toolbar-title>Players</v-toolbar-title>
+          <v-toolbar-title>Players Management</v-toolbar-title>
           <v-divider
             class="mx-10"
             inset
@@ -23,6 +22,21 @@
 
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
+            <template v-slot:activator="{ on, attrs }">
+              <router-link to="/api/player">
+              <v-btn
+                color="green"
+                dark
+                class="mb-2"
+                v-bind="attrs"
+                v-on="on" fab
+              >
+              <v-icon>
+              add
+              </v-icon>
+              </v-btn>
+              </router-link>
+            </template>
 
             <v-card>
               <v-card-title>
@@ -34,45 +48,43 @@
                   <v-row>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                      :rules="[required]" readonly
+                      :rules="[required]"
                       v-model="editedPlayer.F_name"
                       label="Player name"></v-text-field>
-
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                      :rules="[required]" readonly
+                      :rules="[required]"
                       v-model="editedPlayer.L_name"
                       label="Player L_name"></v-text-field>
                     </v-col>
 
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                      :rules="[required]" readonly
+                      :rules="[required]"
                       v-model="editedPlayer.Born"
                       label="Born"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedPlayer.College" readonly label="College"></v-text-field>
+                      <v-text-field v-model="editedPlayer.College" label="College"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field readonly
+                      <v-text-field
                       :rules="[required]"
                       v-model="editedPlayer.Nba_debut"
                       label="NBA Debut"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field readonly v-model="editedPlayer.Height" label="Height"></v-text-field>
+                      <v-text-field v-model="editedPlayer.Height" label="Height"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                      readonly
                       :rules="[required]"
                       v-model="editedPlayer.Position"
                       label="Position"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field readonly v-model="editedPlayer.PlayerImage" label="Player Image URL"></v-text-field>
+                      <v-text-field v-model="editedPlayer.PlayerImage" label="Player Image"></v-text-field>
                       <img class="player-image" :src="editedPlayer.PlayerImage" alt="">
                     </v-col>
                   </v-row>
@@ -85,7 +97,7 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                <!-- <v-btn color="blue darken-1" text @click="save">Save</v-btn> -->
+                <v-btn color="blue darken-1" text @click="save">Save</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -97,27 +109,19 @@
           class="mr-2"
           @click="editItem(item)"
         >
-        visibility
+        edit<!-- visibility -->
         </v-icon>
-        <!-- <v-icon
+        <v-icon
           medium
           @click="deleteItem(item)"
         >
           delete
-        </v-icon> -->
+        </v-icon>
       </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="initialize">Reset</v-btn>
       </template>
     </v-data-table>
-        <!-- ceva
-        ceva
-        ceva
-        ceva
-        ceva
-        ceva
-        ceva -->
-    <!-- <v-data-table dense :headers="headers" :items="players" item-key="name" class="elevation-1"></v-data-table> -->
         </panel>
     </v-flex>
     </v-layout>
@@ -125,7 +129,6 @@
 </template>
 
 <script>
-// aici import rutele pt REST cu cererile de backend din fisierul respectiv iar in panel este un Component sablon
 import PlayersServices from '../services/PlayersServices'
 import Panel from './Panel'
 import Api from '../services/Api'
@@ -137,13 +140,6 @@ export default {
   data () {
     return {
       dialog: false,
-      // (PlayersServices.index().then((response) => {
-      //   this.players = response.data
-      // }).catch((err) => {
-      //   console.log('err in axios is ' + err)
-      //   })),
-      // players: PlayersServices.index().data,
-
       error: null,
       required: (value) => !!value || 'Required.',
 
@@ -154,9 +150,7 @@ export default {
           sortable: false,
           value: 'F_name'
         },
-        // this.players = (await PlayersServices.index()).data
         { text: 'Last Name', value: 'L_name' },
-        // { text: 'Id_player', value: 'Id_player' },
         { text: 'Born', value: 'Born' },
         { text: 'College', value: 'College' },
         { text: 'NBA debut', value: 'Nba_debut' },
@@ -193,18 +187,11 @@ export default {
         Id_player: 0
       }
 
-    // {
-    //   text: 'Players',
-    //   align: 'start',
-    //   sortable: false,
-    //   value: 'name'
-    // },
-
     }
   },
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Player' : 'View player'
+      return this.editedIndex === -1 ? 'New Player' : 'Edit player'
     }
   },
   watch: {
@@ -213,7 +200,6 @@ export default {
     }
   },
   async mounted () {
-    // this.players = (await PlayersServices.index()).data
     await (PlayersServices.index().then((response) => {
       this.players = response.data
     }).catch((err) => {
@@ -223,13 +209,10 @@ export default {
   created () {
     this.initialize()
   },
-  // NU sunt sigur ca este in regula parcurgerea si implicit afisarea in DataTable a datelor
-  // din baza de date
   methods: {
     initialize () {
       try {
         console.log(this.players)
-        // this.players = PlayersServices.index().data
         for (this.player of this.players) {
           this.player = [{
             Id_player: this.player.Id_player,
@@ -259,8 +242,7 @@ export default {
       var pid = this.players.map(function (player) {
         return player.Id_player
       })
-      // for (this.player of this.players) {
-      // }
+
       console.log('########################## ID is ' + pid[index])
       confirm('Are you sure you want to delete this player?') &&
       this.players.splice(index, 1) &&
@@ -277,7 +259,6 @@ export default {
         this.editedIndex = -1
       })
     },
-
     async save () {
       if (this.editedIndex > -1) {
         Object.assign(this.players[this.editedIndex], this.editedPlayer)
@@ -304,9 +285,6 @@ export default {
         this.players.push(this.editedPlayer)
         try {
           await PlayersServices.post(this.editedPlayer)
-          // this.$router.push({
-          // name: 'players'
-          // })
         } catch (e) {
           console.log(e)
         }

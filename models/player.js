@@ -42,7 +42,10 @@ const Player = sequelize.define(
 		PlayerImage: {
 			type: Sequelize.TEXT,
 			allowNull: true
-		}
+		},
+		// Id_team: {
+
+		// }
 	},
 	{
 		timestamps: false,

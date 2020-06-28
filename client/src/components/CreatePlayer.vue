@@ -6,19 +6,21 @@
       <v-card>
     <v-img justify-start src="https://www.sportsflagsandpennants.com/images_templ/nba-flags-2.jpg" height =125 alt=""></v-img>
     </v-card>
-  <panel title="Player Metadata">
+  <panel title="ADD NEW PLAYER">
     <v-text-field
-            label="F_name"
+            label="First name"
             outlined
             :rules="[required]"
             v-model="player.F_name"
             ></v-text-field>
     <v-text-field
-            label="L_name"
+            label="Last name"
             outlined
+            :rules="[required]"
             v-model="player.L_name"
             ></v-text-field>
     <v-text-field
+            :rules="[required]"
             label="Born"
             outlined
             v-model="player.Born"
@@ -29,8 +31,9 @@
             v-model="player.College"
             ></v-text-field>
     <v-text-field
-            label="Nba_debut"
+            label="NBA_debut"
             outlined
+            :rules="[required]"
             v-model="player.Nba_debut"
             ></v-text-field>
     <v-text-field
@@ -39,6 +42,7 @@
             v-model="player.Height"
             ></v-text-field>
     <v-text-field
+    :rules="[required]"
             label="Position"
             outlined
             v-model="player.Position"
@@ -48,13 +52,13 @@
             outlined
             v-model="player.PlayerImage"
             ></v-text-field>
+  <v-btn class="ma-2" dark color="#66BB6A" @click="create">
+              Add Player
+            </v-btn>
   </panel>
           <v-alert type="error" v-if="error">
           Please fill in the required fields
           </v-alert>
-  <v-btn class="ma-2" dark color="#66BB6A" @click="create">
-              Add Player
-            </v-btn>
   </v-flex>
   </v-layout>
 </v-app>
@@ -98,7 +102,7 @@ export default {
       try {
         await PlayersServices.post(this.player)
         this.$router.push({
-          name: 'players'
+          name: 'players-m'
         })
       } catch (e) {
         console.log(e)

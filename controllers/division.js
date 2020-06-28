@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const sequelize = require('../util/database');
 
 const Division = require("../models/division.js");
 
@@ -13,8 +14,20 @@ exports.getDiv = (req, res, next) => {
 		});
 };
 
+exports.getDivConf = (req, res, next) => {
+	let id = req.params.id
+	let divconf = sequelize.query(`SELECT d.Div_name FROM divisions as d JOIN conferences as c ON d.Id_conf = c.Id_conf WHERE d.Id_conf= ${id}`, {
+		model: Division,
+		mapToModel: false
+	}).then((divisions) => {
+		res.json(divisions)
+	}).catch((err) => {
+		res.send("error is " + err)
+	});
+}
+// && !req.body.Id_conf
 exports.postDiv = (req, res, next) => {
-	if (!req.body.Div_name && !req.body.Id_conf) {
+	if (!req.body.Div_name ) {
 		res.status(400).json({ error: "Bad data" });
 	} else {
 		Division.create(req.body)
@@ -38,7 +51,7 @@ exports.putDiv = (req, res, next) => {
 			},
 			{
 				where: {
-					Id_conf: req.params.id,
+					Id_div: req.params.id,
 				},
 			}
 		)
@@ -55,7 +68,7 @@ exports.putDiv = (req, res, next) => {
 exports.deleteDiv = (req, res, next) => {
 	Division.destroy({
 		where: {
-			Id_conf: req.params.id,
+			Id_div: req.params.id,
 		},
 	})
 		.then(() => {

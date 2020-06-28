@@ -24,6 +24,8 @@ const divisionRoutes = require('./routes/divisions');
 const teamPlayerRoutes = require('./routes/team-players');
 const divTeamRoutes = require('./routes/div-teams');
 const registerRoutes = require('./routes/registers');
+const gameRoutes = require('./routes/games');
+const pointsRoutes = require('./routes/points');
 
 const app = express();
 
@@ -46,6 +48,20 @@ app.use('/api', divisionRoutes);
 app.use('/api', teamPlayerRoutes);
 app.use('/api', divTeamRoutes);
 app.use('/api', registerRoutes);
+app.use('/api', gameRoutes);
+app.use('/api', pointsRoutes);
+
+Player.belongsTo(Team, {
+	constraints: true,
+	onDelete: 'CASCADE',
+	foreignKey: 'Id_team',
+})
+
+Team.hasMany(Player, {
+	constraints: true,
+	foreignKey: 'Id_team',
+	onDelete: 'CASCADE',
+})
 
 Conference.belongsTo(Season, {
 	constraints: true,
@@ -75,19 +91,23 @@ Conference.hasMany(Division, {
 //Many to many team players
 Player.associate = function (models) {
 	Player.belongsToMany(models.Team, {
-		through: 'teamplayers',
+		through: 'teamplayers_history',
 		// as: "teams",
 		foreignKey: 'Id_player',
 		otherKey: 'Id_team',
+		onDelete: 'CASCADE',
+
 	});
 };
 
 Team.associate = function (models) {
 	Team.belongsToMany(models.Player, {
-		through: 'teamplayers',
+		through: 'teamplayers_history',
 		// as: "players",
 		foreignKey: 'Id_team',
 		otherKey: 'Id_player',
+		onDelete: 'CASCADE',
+
 	});
 };
 

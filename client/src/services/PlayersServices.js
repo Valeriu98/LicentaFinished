@@ -8,4 +8,10 @@ export default {
   post (player) {
     return Api().post('api/player', player)
   }
+  // delete (player) {
+  //   return Api().delete('api/player/{id}')
+  // }
+  // put (player) {
+  //   return Api().put(`api/player/${player.Id_player}`, player)
+  // }
 }

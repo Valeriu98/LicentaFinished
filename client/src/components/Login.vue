@@ -11,7 +11,7 @@
         </v-app-bar>
           <br>
         <div class="pl-4 pr-4 pt-2 pb-2">
-          <v-form name="nba-app-form" autocomplete="on">
+          <v-form name="nba-app-form" autocomplete="on" >
             <v-text-field
             label="Email"
             outlined
@@ -22,15 +22,16 @@
             outlined
             type="password"
             v-model="Password"
-            autocomplete="new-password"
             ></v-text-field>
             </v-form>
             <br />
             <!-- <br /> -->
             <div class="error" v-html="error" />
+            <!-- <router-link to="/"> -->
             <v-btn class="ma-2" dark color="#BF360C" @click="login">
               Log In
             </v-btn>
+            <!-- </router-link> -->
         </div>
       </div>
     </v-flex>
@@ -62,6 +63,9 @@ export default {
         try {
           this.$store.dispatch('setToken', response.data.token)
           this.$store.dispatch('setUser', response.data.user)
+          this.$router.push({
+            name: 'root'
+          })
         } catch (e) {
           console.log('error in store dispatch' + e)
         }

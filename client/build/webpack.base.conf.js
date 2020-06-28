@@ -35,7 +35,7 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src'),
+      '@': resolve('src')
     }
   },
   module: {
@@ -46,6 +46,31 @@ module.exports = {
         loader: 'vue-loader',
         options: vueLoaderConfig
       },
+      // {
+      //   test: /\.vue$/,
+      //   loader: 'vue-loader',
+      //   options: {
+      //     loaders: {
+      //       'scss': 'vue-style-loader!css-loader!sass-loader',
+      //       'sass': 'vue-style-loader!css-loader!sass-loader?indentedSyntax'
+      //     }
+      //   }
+
+      // },
+      // {
+      //   test: /\.(css|less|scss)$/,
+      //   use: [
+      //     {
+      //       loader: 'style-loader'
+      //     },
+      //     {
+      //       loader: 'css-loader'
+      //     },
+      //     {
+      //       loader: 'sass-loader'
+      //     }
+      //   ]
+      // },
       {
         test: /\.js$/,
         loader: 'babel-loader',
@@ -77,6 +102,11 @@ module.exports = {
       }
     ]
   },
+  // vue: {
+  //   loaders: {
+  //     scss: 'style!css!sass'
+  //   }
+  // },
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
     // source contains it (although only uses it if it's native).

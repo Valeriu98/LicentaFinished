@@ -1,10 +1,10 @@
 <template>
 <div>
   <span  class="bg"></span>
+  <v-app>
     <v-layout align="start" justify-start>
     <v-flex xs10 offset-xs1>
       <panel title="Data about players">
-
         <br>
       <v-data-table
       :headers="headers"
@@ -14,7 +14,7 @@
     >
       <template v-slot:top>
         <v-app-bar fluid color="cyan">
-          <v-toolbar-title>Players</v-toolbar-title>
+          <v-toolbar-title>Milwaukee Bucks</v-toolbar-title>
           <v-divider
             class="mx-10"
             inset
@@ -23,6 +23,19 @@
 
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
+            <!-- <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                color="green"
+                dark
+                class="mb-2"
+                v-bind="attrs"
+                v-on="on" fab
+              >
+              <v-icon>
+              add
+              </v-icon>
+              </v-btn>
+            </template> -->
 
             <v-card>
               <v-card-title>
@@ -33,59 +46,42 @@
 
                   <v-row>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field
-                      :rules="[required]" readonly
-                      v-model="editedPlayer.F_name"
-                      label="Player name"></v-text-field>
-
+                      <v-text-field v-model="editedPlayer.F_name" label="Player name"></v-text-field>
+                      <!-- <div v-for="player in players" :key="player.id">
+                        {{player.F_name}}
+                      </div> -->
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field
-                      :rules="[required]" readonly
-                      v-model="editedPlayer.L_name"
-                      label="Player L_name"></v-text-field>
+                      <v-text-field v-model="editedPlayer.L_name" label="Player L_name"></v-text-field>
                     </v-col>
 
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field
-                      :rules="[required]" readonly
-                      v-model="editedPlayer.Born"
-                      label="Born"></v-text-field>
+                      <v-text-field v-model="editedPlayer.Born" label="Born"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedPlayer.College" readonly label="College"></v-text-field>
+                      <v-text-field v-model="editedPlayer.College" label="College"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field readonly
-                      :rules="[required]"
-                      v-model="editedPlayer.Nba_debut"
-                      label="NBA Debut"></v-text-field>
+                      <v-text-field v-model="editedPlayer.Nba_debut" label="NBA Debut"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field readonly v-model="editedPlayer.Height" label="Height"></v-text-field>
+                      <v-text-field v-model="editedPlayer.Height" label="Height"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field
-                      readonly
-                      :rules="[required]"
-                      v-model="editedPlayer.Position"
-                      label="Position"></v-text-field>
+                      <v-text-field v-model="editedPlayer.Position" label="Position"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field readonly v-model="editedPlayer.PlayerImage" label="Player Image URL"></v-text-field>
+                      <v-text-field v-model="editedPlayer.PlayerImage" label="Player Image"></v-text-field>
                       <img class="player-image" :src="editedPlayer.PlayerImage" alt="">
                     </v-col>
                   </v-row>
                 </v-container>
               </v-card-text>
 
-              <v-alert type="error" v-if="error">
-                Please fill in the required fields
-              </v-alert>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                <!-- <v-btn color="blue darken-1" text @click="save">Save</v-btn> -->
+                <v-btn color="blue darken-1" text @click="save">Save</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -93,42 +89,76 @@
       </template>
       <template v-slot:item.actions="{ item }">
         <v-icon
-          medium
+          small
           class="mr-2"
           @click="editItem(item)"
         >
-        visibility
+        edit
         </v-icon>
-        <!-- <v-icon
-          medium
+        <v-icon
+          small
           @click="deleteItem(item)"
         >
           delete
-        </v-icon> -->
+        </v-icon>
       </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="initialize">Reset</v-btn>
       </template>
     </v-data-table>
-        <!-- ceva
-        ceva
-        ceva
-        ceva
-        ceva
-        ceva
-        ceva -->
-    <!-- <v-data-table dense :headers="headers" :items="players" item-key="name" class="elevation-1"></v-data-table> -->
+
+    <panel title="PIE STATS">
+        <v-card
+      class="mx-auto text-center"
+      color="green"
+      dark
+      width="70%"
+    >
+      <v-card-text>
+        <v-sheet color="rgba(0, 0, 0, .12)">
+          <v-sparkline
+            :items="pie"
+            :value="pie"
+            :header="headers"
+            color="rgba(255, 255, 255, .7)"
+            height="100"
+            padding="24"
+            stroke-linecap="round"
+
+          >
+            <template  v-slot:label="item">
+              {{ item.value}}
+            </template>
+          </v-sparkline>
+        </v-sheet>
+      </v-card-text>
+
+      <v-card-text>
+        <div class="display-1 font-weight-thin">PIE   Milwaukee Bucks</div>
+      </v-card-text>
+
+      <v-divider></v-divider>
+
+      <v-card-actions class="justify-center">
+          <router-link to="/stats">
+        <v-btn block text>Go to Stats</v-btn>
+        </router-link>
+      </v-card-actions>
+    </v-card>
+    </panel>
+
         </panel>
     </v-flex>
     </v-layout>
+  </v-app>
   </div>
 </template>
 
 <script>
-// aici import rutele pt REST cu cererile de backend din fisierul respectiv iar in panel este un Component sablon
+
 import PlayersServices from '../services/PlayersServices'
-import Panel from './Panel'
 import Api from '../services/Api'
+import Panel from './Panel'
 
 export default {
   components: {
@@ -137,15 +167,7 @@ export default {
   data () {
     return {
       dialog: false,
-      // (PlayersServices.index().then((response) => {
-      //   this.players = response.data
-      // }).catch((err) => {
-      //   console.log('err in axios is ' + err)
-      //   })),
-      // players: PlayersServices.index().data,
-
-      error: null,
-      required: (value) => !!value || 'Required.',
+      pie: [8.9, 7.3, -10, 11.9, 8.1, 3.9],
 
       headers: [
         {
@@ -156,19 +178,18 @@ export default {
         },
         // this.players = (await PlayersServices.index()).data
         { text: 'Last Name', value: 'L_name' },
-        // { text: 'Id_player', value: 'Id_player' },
         { text: 'Born', value: 'Born' },
         { text: 'College', value: 'College' },
         { text: 'NBA debut', value: 'Nba_debut' },
         { text: 'Height', value: 'Height' },
-        { text: 'Position', value: 'Position' },
-        { text: 'Player Image', value: 'PlayerImage' },
-        { text: 'Actions', value: 'actions', sortable: false }
+        { text: 'Position', value: 'Position' }
+        // { text: 'PIE', value: 'pie' }
+        // { text: 'Player Image', value: 'PlayerImage' },
+        // { text: 'Actions', value: 'actions', sortable: false }
       ],
       players: [],
       editedIndex: -1,
       editedPlayer: {
-        Id_player: 0,
         F_name: null,
         L_name: null,
         Born: null,
@@ -179,18 +200,14 @@ export default {
         PlayerImage: null
       },
       defaultPlayer: {
-        Id_player: 0,
-        F_name: null,
-        L_name: null,
-        Born: null,
-        College: null,
-        Nba_debut: null,
-        Height: null,
-        Position: null,
-        PlayerImage: null
-      },
-      deletePlayer: {
-        Id_player: 0
+        name: null,
+        l_name: null,
+        born: null,
+        college: null,
+        nba_debut: null,
+        height: null,
+        position: null,
+        playerimage: null
       }
 
     // {
@@ -204,7 +221,7 @@ export default {
   },
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Player' : 'View player'
+      return this.editedIndex === -1 ? 'New Player' : 'Edit player'
     }
   },
   watch: {
@@ -214,7 +231,7 @@ export default {
   },
   async mounted () {
     // this.players = (await PlayersServices.index()).data
-    await (PlayersServices.index().then((response) => {
+    await (Api().get(`/api/players/${7}`).then((response) => {
       this.players = response.data
     }).catch((err) => {
       console.log('err in axios is ' + err)
@@ -223,8 +240,6 @@ export default {
   created () {
     this.initialize()
   },
-  // NU sunt sigur ca este in regula parcurgerea si implicit afisarea in DataTable a datelor
-  // din baza de date
   methods: {
     initialize () {
       try {
@@ -232,7 +247,6 @@ export default {
         // this.players = PlayersServices.index().data
         for (this.player of this.players) {
           this.player = [{
-            Id_player: this.player.Id_player,
             F_name: this.player.F_name,
             L_name: this.player.L_name,
             Born: this.player.Born,
@@ -240,8 +254,10 @@ export default {
             Nba_debut: this.player.Nba_debut,
             Height: this.player.Height,
             Position: this.player.Position,
-            PlayerImage: this.player.PlayerImage
-          }]
+            PlayerImage: this.player.PlayerImage,
+            pie: this.pie
+          }
+          ]
           console.log(this.player)
         }
       } catch (err) {
@@ -251,24 +267,12 @@ export default {
     editItem (item) {
       this.editedIndex = this.players.indexOf(item)
       this.editedPlayer = Object.assign({}, item)
-      this.Id_player = this.players.Id_player
       this.dialog = true
     },
-    async deleteItem (item) {
-      let index = this.players.indexOf(item)
-      var pid = this.players.map(function (player) {
-        return player.Id_player
-      })
-      // for (this.player of this.players) {
-      // }
-      console.log('########################## ID is ' + pid[index])
+    deleteItem (item) {
+      const index = this.players.indexOf(item)
       confirm('Are you sure you want to delete this player?') &&
-      this.players.splice(index, 1) &&
-      await Api().delete(`api/player/${pid[index]}`).then((result) => {
-        console.log(result)
-      }).catch((err) => {
-        console.log('error deleting player' + err)
-      })
+      this.players.splice(index, 1)
     },
     close () {
       this.dialog = false
@@ -277,33 +281,19 @@ export default {
         this.editedIndex = -1
       })
     },
-
-    async save () {
+    // am incercat sa salvez un player nou prin form, folosind o cerere POST
+    save () {
       if (this.editedIndex > -1) {
-        Object.assign(this.players[this.editedIndex], this.editedPlayer)
         try {
-          // console.log(this.Id_player)
-          await Api().put(`/api/player/${this.editedPlayer.Id_player}`, {
-            F_name: this.editedPlayer.F_name,
-            L_name: this.editedPlayer.L_name,
-            Born: this.editedPlayer.Born,
-            College: this.editedPlayer.College,
-            Nba_debut: this.editedPlayer.Nba_debut,
-            Height: this.editedPlayer.Height,
-            Position: this.editedPlayer.Position,
-            PlayerImage: this.editedPlayer.PlayerImage
-          }).then((result) => {
-            console.log(result)
-          }).catch((err) => {
-            console.log('err in axios is ' + err)
-          })
+          PlayersServices.post(this.players[this.editedIndex])
         } catch (err) {
-          console.log('error in put is: ' + err)
+          console.log('error in post is: ' + err)
         }
+        Object.assign(this.players[this.editedIndex], this.editedPlayer)
       } else {
         this.players.push(this.editedPlayer)
         try {
-          await PlayersServices.post(this.editedPlayer)
+          PlayersServices.post(this.players)
           // this.$router.push({
           // name: 'players'
           // })
@@ -312,14 +302,6 @@ export default {
         }
       }
       this.close()
-    },
-
-    errorAlert () {
-      this.error = null
-      const areFilledIn = Object.keys(this.players).every(key => !!this.players[key])
-      if (!areFilledIn) {
-        this.error = 'Please fill in all the required fields'
-      }
     }
   }
 }
@@ -335,7 +317,7 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-    background: url( 'https://pbs.twimg.com/media/EQaQhqJVAAUJBHP.jpg') no-repeat center center;
+    background: url( 'https://besthqwallpapers.com/Uploads/27-12-2017/35364/thumb2-washington-wizards-4k-logo-material-design-american-basketball-club.jpg') no-repeat center center;
     background-size: cover;
     /* background-color:;https://50-best.com/wp-content/uploads/2018/12/nba_paint-1024x576.jpg */
     transform: scale(1.1);

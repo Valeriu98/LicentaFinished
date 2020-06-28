@@ -14,10 +14,12 @@ const Season = sequelize.define(
 		S_sd: {
 			type: Sequelize.INTEGER,
 			allowNull: false,
+			unique: true
 		},
 		F_sd: {
 			type: Sequelize.INTEGER,
 			allowNull: false,
+			unique: true
 		},
 	},
 	{

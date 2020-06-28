@@ -34,7 +34,5 @@ User.prototype.comparePassword = function(Password){
 	return bcrypt.compare(Password, this.Password)
 }
 
-// User.associate = function (models) {
-// }
 
 module.exports = User;

@@ -1,6 +1,6 @@
 <template>
 <v-app>
-  <div class="white elevation-2">
+  <div class="white elevation-5">
       <v-app-bar fluid dense class="" color="#01579B" dark>
       <v-toolbar-title>{{title}}</v-toolbar-title>
       <slot name="action" />

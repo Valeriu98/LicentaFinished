@@ -39,9 +39,11 @@
             <br />
             <!-- <br /> -->
             <div class="error" v-html="error" />
+            <!-- <router-link to="/"> -->
             <v-btn class="ma-2" dark color="#BF360C" @click="register">
               Register
             </v-btn>
+            <!-- </router-link> -->
         </div>
       </div>
     </v-flex>
@@ -70,6 +72,9 @@ export default {
         })
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
+        this.$router.push({
+          name: 'root'
+        })
       } catch (error) {
         this.error = error.response.data.error
       }

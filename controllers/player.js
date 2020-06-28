@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const database = require('../util/database');
 // var router = express.Router();
 const Player = require('../models/player');
+const sequelize = require('../util/database');
 
 // GET PLAYERS
 exports.getPlayers = (req, res, next) => {
@@ -13,6 +14,19 @@ exports.getPlayers = (req, res, next) => {
 		.catch((err) => {
 			res.send('error is' + err);
 		});
+};
+
+exports.getTeamPlayers = (req, res, next) => {
+	let test = req.params.id
+	let players = sequelize.query(`SELECT p.F_name, p.L_name, p.Born, p.College, p.Nba_debut, p.Height, p.Position, t.Team_name FROM players as p Join teams as t ON p.Id_team = t.Id_team WHERE p.Id_team = ${test}`,{
+
+		model: Player,
+		mapToModel: true
+	}).then((players) => {
+			res.json(players)
+	}).catch((err) => {
+		res.send("error is " + err)
+	})
 };
 
 //GET PLAYER
@@ -69,15 +83,20 @@ exports.deletePlayer = (req, res, next) => {
 };
 
 // //UPDATE player
+// !req.body.Born &&
+		// !req.body.College &&!req.body.College &&
+// 		!req.body.Nba_debut &&
+// 		!req.body.Height &&
+// !req.body.Height &&// 		!req.body.Position
 // router.put("/player/:id", (req, res, next) => {
 exports.putPlayer = (req, res, next) => {
 	if (
 		!req.body.F_name &&
 		!req.body.L_name &&
 		!req.body.Born &&
-		!req.body.College &&
+		
 		!req.body.Nba_debut &&
-		!req.body.Height &&
+		
 		!req.body.Position
 	) {
 		res.status(400).json({ error: 'Bad data' });
@@ -91,6 +110,7 @@ exports.putPlayer = (req, res, next) => {
 				Nba_debut: req.body.Nba_debut,
 				Height: req.body.Height,
 				Position: req.body.Position,
+				PlayerImage: req.body.PlayerImage
 			},
 			{
 				where: {

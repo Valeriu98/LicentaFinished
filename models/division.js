@@ -15,11 +15,11 @@ const Division = sequelize.define(
 			type: Sequelize.STRING,
 			allowNull: false,
 		},
-		Id_conf: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			foreignKey: true,
-		},
+		// Id_conf: {
+		// 	type: Sequelize.INTEGER,
+		// 	allowNull: true,
+		// 	foreignKey: true,
+		// },
 	},
 	{
 		timestamps: false,
